@@ -1,20 +1,22 @@
-function ArrowIconLeftDrawer(context){
+function ArrowIconLeftDrawer(context) {
     var arrowImageHeight = 18;
-    
-    this.draw = function(left, top){
-        context.drawImage($('#arrow_left')[0], left + length - 6, top - arrowImageHeight/2, 20, 20);
+
+    this.draw = function (left, top) {
+        context.drawImage($('#arrow_left')[0], left + length - 6, top - arrowImageHeight / 2, 20, 20);
     }
-}function ArrowIconRightDrawer(context){
+}
+function ArrowIconRightDrawer(context) {
     var arrowImageHeight = 18;
-    
-    this.draw = function(left, top){
-        context.drawImage($('#arrow_right')[0], left + length - 12, top - arrowImageHeight/2, 20, 20);
+
+    this.draw = function (left, top) {
+        context.drawImage($('#arrow_right')[0], left + length - 12, top - arrowImageHeight / 2, 20, 20);
     }
-}function BarDrawer() {
-    this.draw = function(context, left, top, height) {
+}
+function BarDrawer() {
+    this.draw = function (context, left, top, height) {
         var barWidth = 10;
         context.beginPath();
-        hand_drawing_rect(context, left - barWidth/2, top, barWidth, height, 2);
+        hand_drawing_rect(context, left - barWidth / 2, top, barWidth, height, 2);
         context.lineWidth = 2;
         context.strokeStyle = $('#bar').css("border-color");
         context.stroke();
@@ -24,8 +26,9 @@ function ArrowIconLeftDrawer(context){
         context.fillStyle = null;
 
     }
-}function EntityDrawer(){
-    this.draw = function(context, entityName, left, top, selected){
+}
+function EntityDrawer() {
+    this.draw = function (context, entityName, left, top, selected) {
 //        context.font = "bold 14px arial, sans-serif";
 //        context.font = "bold 14px chalk board";
         context.font = "bold 14px Comic Sans MS";
@@ -38,14 +41,15 @@ function ArrowIconLeftDrawer(context){
 
         var maxWidth = 1000;
         if (selected)
-            context.fillStyle="blue";
+            context.fillStyle = "blue";
         else
-            context.fillStyle="black";
+            context.fillStyle = "black";
         context.fillText(entityName, left + 10, top + 20, maxWidth);
         return rectangleWidth;
     }
-}function GridDrawer(context) {
-    this.draw = function(width, height) {
+}
+function GridDrawer(context) {
+    this.draw = function (width, height) {
         try {/* vertical lines */
             for (var x = 0.5; x < width; x += 10) {
                 context.moveTo(x, 0);
@@ -59,12 +63,12 @@ function ArrowIconLeftDrawer(context){
             /* draw it! */
             context.strokeStyle = "#eee";
             context.stroke();
-        } catch(err) {
+        } catch (err) {
         }
     }
 }// draw vertical line
 function vertical_hand_drawing_line_to(context, fromX, fromY, toY) {
-    var controlX,controlY;
+    var controlX, controlY;
     var offsetX = 3;
     var offsetY = 3;
     controlX = fromX + offsetX * (Math.random() - 0.5);
@@ -79,7 +83,7 @@ function vertical_hand_drawing_line_to(context, fromX, fromY, toY) {
 
 // draw horizontal line
 function horizontal_hand_drawing_line_to(context, fromX, fromY, toX) {
-    var controlX,controlY;
+    var controlX, controlY;
     var offsetX = 3;
     var offsetY = 3;
     controlY = fromY + offsetY * (Math.random() - 0.5);
@@ -108,29 +112,29 @@ function hand_drawing_rect(context, left, top, width, height, radius) {
     context.lineTo(left, top + radius);
     context.quadraticCurveTo(left, top, left + radius, top);
 }
-function HorizontalArrowDrawer(context){
-    this.drawRightArrow = function(left, top, length) {
+function HorizontalArrowDrawer(context) {
+    this.drawRightArrow = function (left, top, length) {
         new ArrowIconRightDrawer(context).draw(left + length, top);
     };
 
-    this.drawLeftArrow = function(left, top, length) {
-        new ArrowIconLeftDrawer(context).draw(left+length, top);
+    this.drawLeftArrow = function (left, top, length) {
+        new ArrowIconLeftDrawer(context).draw(left + length, top);
     };
 
-    this.draw = function(left, top, length){
+    this.draw = function (left, top, length) {
         // draw the line: ----
         // draw the arrow icon
-        if(length > 0) {
-            new HorizontalLineDrawer(context).draw(left+5, top, length-10);
-            this.drawRightArrow(left+5, top, length-10);
+        if (length > 0) {
+            new HorizontalLineDrawer(context).draw(left + 5, top, length - 10);
+            this.drawRightArrow(left + 5, top, length - 10);
         } else {
-            new HorizontalLineDrawer(context).draw(left-5, top, length+10);
-            this.drawLeftArrow(left-5, top, length+10);
+            new HorizontalLineDrawer(context).draw(left - 5, top, length + 10);
+            this.drawLeftArrow(left - 5, top, length + 10);
         }
     }
 }// This is to draw a horizontal line like: -----
 function HorizontalLineDrawer(context) {
-    this.draw = function(left, top, length) {
+    this.draw = function (left, top, length) {
         context.beginPath();
         context.moveTo(left, top);
 //        context.lineTo(left + length, top);
@@ -141,11 +145,11 @@ function HorizontalLineDrawer(context) {
     };
 
 
-
-}function InternalInvokeDrawer() {
+}
+function InternalInvokeDrawer() {
     var length = 50;
     var height = 30;
-    this.draw = function(context, message, left, top ) {
+    this.draw = function (context, message, left, top) {
         context.beginPath();
         left = left + 5;
         context.moveTo(left, top);
@@ -156,12 +160,13 @@ function HorizontalLineDrawer(context) {
         context.lineWidth = 2;
         context.stroke();
 
-        new ArrowIconLeftDrawer(context).draw( left, top+height);
+        new ArrowIconLeftDrawer(context).draw(left, top + height);
 
         new LabelDrawer(context).draw(message, left, length, top);
     }
-}function LabelDrawer(context) {
-    this.draw = function(message, left, length, top) {
+}
+function LabelDrawer(context) {
+    this.draw = function (message, left, length, top) {
         var maxWidth = 1000;
         var textMetrics = context.measureText(message);
         context.font = "14px Comic Sans MS";
@@ -177,25 +182,27 @@ function HorizontalLineDrawer(context) {
         }
 
     }
-}function LifeLineDrawer() {
-    this.draw = function(context, entityName, left, lifeLength, selected) {
+}
+function LifeLineDrawer() {
+    this.draw = function (context, entityName, left, lifeLength, selected) {
         var top = 20;
         var entityHeight = 30;
 
         var entityDrawer = new EntityDrawer();
         var entityWidth = entityDrawer.draw(context, entityName, left, top, selected);
-        
+
         var lineDrawer = new LineDrawer();
-        lineDrawer.draw(context,left + (entityWidth)/2, top + entityHeight, lifeLength);
+        lineDrawer.draw(context, left + (entityWidth) / 2, top + entityHeight, lifeLength);
 
         return entityWidth;
     }
-}function LineDrawer() {
-    this.draw = function(context,left, top, height) {
+}
+function LineDrawer() {
+    this.draw = function (context, left, top, height) {
         context.beginPath();
         context.moveTo(left, top);
 
-        vertical_hand_drawing_line_to(context, left, top, top+height);
+        vertical_hand_drawing_line_to(context, left, top, top + height);
         /* draw it! */
         context.lineWidth = 2;
         context.strokeStyle = $('#line').css("color");
@@ -203,13 +210,15 @@ function HorizontalLineDrawer(context) {
     };
 
 
-}function MessageDrawer() {
-    this.draw = function(context, message, left, top, length) {
+}
+function MessageDrawer() {
+    this.draw = function (context, message, left, top, length) {
         new HorizontalArrowDrawer(context).draw(left, top, length);
         new LabelDrawer(context).draw(message, left, length, top);
     }
-}function RectangleDrawer(context) {
-    this.draw = function(left, top, width) {
+}
+function RectangleDrawer(context) {
+    this.draw = function (left, top, width) {
         var height = 30;
         var radius = 5;
 
