@@ -2,11 +2,43 @@
     var drawGrid = function() {
         this.canvasManager.drawGrid();
     }
+    var act = function(name) {
+        this.activity = new ActivitySequence(name);
+    }
+    var script = function(script, redraw_now) {
+        this.scriptString = script;
+        if (redraw_now) {
+            return this.redraw();
+        }
+        return this;
+    }
+    var redraw = function () {
+        this.activity.draw(this.canvasManager, this.scriptString);
+        this.lastXOffset = 0;
+        this.lastYOffset = 0;
+        return this;
+    }
+    var resetCanvasPosition = function() {
+        this.offset({ top: this.offset().top, left: 0 });
+        this.lastXOffset = 0;
+        this.lastYOffset = 0;
+    }
+
     $.fn.seqdia = function(allow_dragging) {
-        // clears everything
-        this.html('');
         var width = this.width();
         var height = this.height();
+
+        // perform immediate scripting when there's no nested HTML elements
+        // but only character string contents
+        var num_children = this.children().length;
+        var immediate_script;
+        if (num_children == 0) {
+            immediate_script = this.text();
+        }
+
+        // clear everything
+        this.html('');
+
         this.canv_grid = $('<canvas width="' + width + '" height="' + height + '" class="canvas" style="z-index:1000"></canvas>');
         this.canv_entity = $('<canvas width="' + width + '" height="' + height + '" class="canvas" style="z-index:1000"></canvas>');
         this.canv_message = $('<canvas width="' + width + '" height="' + height + '" class="canvas" style="z-index:5000"></canvas>');
@@ -55,30 +87,10 @@
         }
 
         this.drawGrid = drawGrid;
-
-        this.act = function(name) {
-            this.activity = new ActivitySequence(name);
-        }
-
-        this.script = function(script, redraw_now) {
-            this.scriptString = script;
-            if (redraw_now) {
-                this.redraw();
-            }
-        }
-
-        this.redraw = function () {
-            this.activity.draw(this.canvasManager, this.scriptString);
-            this.lastXOffset = 0;
-            this.lastYOffset = 0;
-        };
-
-
-        this.resetCanvasPosition = function() {
-            this.offset({ top: $('#content_container').offset().top, left: 0 });
-            this.lastXOffset = 0;
-            this.lastYOffset = 0;
-        }
+        this.act = act;
+        this.script = script;
+        this.redraw = redraw;
+        this.resetCanvasPosition = resetCanvasPosition;
 
         this.startMove = function(event) {
             dia.bind('onmousemove', dia.dragCanvas);
@@ -115,6 +127,12 @@
             if (dia.lastYOffset < -1500) {
                 dia.lastYOffset = -1500;
             }
+        }
+
+        if (num_children == 0) {
+            this.act(this.get(0).id);
+            this.script(immediate_script)
+                .redraw();
         }
 
         return this;

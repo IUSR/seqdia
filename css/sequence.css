@@ -16,9 +16,6 @@
     background-color: #ffffff;
 }
 
-html{
-	background-color: #5195CE;
-}
 body{
 	font-family: arial;
 	margin: 0px;
@@ -334,7 +331,7 @@ table.pricetable td + td{
     margin-left:auto;
     margin-right:auto;
     width: 98%;
-    height: 800px;
+    /*height: 800px;*/
     overflow: auto;
     overflow-x:hidden;
     overflow-y:hidden;
@@ -348,8 +345,6 @@ table.pricetable td + td{
 .canvas {
     position: absolute;
     border: 1px dotted;
-    width:2048px;
-    height:2048px;
 }
 
 
