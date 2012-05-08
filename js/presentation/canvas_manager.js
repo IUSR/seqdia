@@ -9,7 +9,7 @@ function CanvasManager(container) {
     this.entities = new Array();
 
     this.drawGrid = function () {
-        var canvas = document.getElementById("grid");
+        var canvas = this.grid;
         var context = canvas.getContext('2d');
         var gridDrawer = new GridDrawer(context);
         gridDrawer.draw(canvas.width, canvas.height);
@@ -18,8 +18,8 @@ function CanvasManager(container) {
 
     this.addEntity = function(entityName) {
         //        var canvasId = 'entity_canvas_' + entityName;
-        var canvasId = 'entity_canvas_';
-        var context = document.getElementById(canvasId).getContext('2d');
+        //var canvasId = 'entity_canvas_';
+        var context = this.entity.getContext('2d');
         var newLeft = 0;
         newLeft = this.rightBound + this.entitySpace;
         var entityWidth = this.lifeLineDrawer.draw(context, entityName, newLeft, this.lifeLenght, false);
@@ -38,8 +38,7 @@ function CanvasManager(container) {
 
 
     this.removeAllEntities = function() {
-
-        var canvas = $('#entity_canvas_')[0];
+        var canvas = this.entity;
         if (canvas) {
             var context = canvas.getContext('2d');
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -49,7 +48,7 @@ function CanvasManager(container) {
     };
 
     this.removeAllMessages = function() {
-        var canvas = $('#message_canvas_')[0];
+        var canvas = this.message;
         if (canvas) {
             var context = canvas.getContext('2d');
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -57,12 +56,12 @@ function CanvasManager(container) {
     };
 
     this.drawPresentationMessage = function(presentationMessage) {
-        var messageCanvasId = 'message_canvas_';
-        var messageContext = document.getElementById(messageCanvasId).getContext('2d');
+        //var messageCanvasId = 'message_canvas_';
+        var messageContext = this.message.getContext('2d');
         var entityFrom = this.getEntity(presentationMessage.fromEntity);
         var entityTo = this.getEntity(presentationMessage.toEntity);
-        var barCanvasId = 'entity_canvas_';
-        var canvas = document.getElementById(barCanvasId);
+        //var barCanvasId = 'entity_canvas_';
+        var canvas = this.bar;
         var barContext = canvas.getContext('2d');
         if (entityFrom == entityTo) {
             var left = entityFrom.left + entityFrom.width / 2;
