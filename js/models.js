@@ -1,3 +1,25 @@
+//This is the root data model for the sequence diagram
+function ActivitySequence(scriptContent) {
+    this.draw = function (canvasManager, scriptContent) {
+        canvasManager.removeAllEntities();
+        var newEntities = getEntities(scriptContent);
+        for (var i in newEntities) {
+            var entity = newEntities[i];
+            canvasManager.addEntity(entity);
+        }
+        canvasManager.removeAllMessages();
+        var messageParser = new MessageParser();
+        var messages = messageParser.parse(scriptContent);
+        var messageConverter = new MessageConverter();
+        for (var i in messages) {
+            var message = messages[i];
+            var pMessage = message.accept(messageConverter);
+            canvasManager.drawPresentationMessage(pMessage);
+            messageConverter.topMargin = pMessage.top + pMessage.getHeight();
+        }
+    }
+}
+
 function getEntities(scriptContent) {
     scriptContent = scriptContent.split("{").join("\n{\n");
     scriptContent = scriptContent.split("}").join("\n}\n");
@@ -43,4 +65,16 @@ function hasThisItemDO(array, itemThat) {
         if (array[itemThis] == itemThat) return true;
     }
     return false;
+}
+
+function SyncMessage(id, from, to, text) {
+    this.id = id;
+    this.from = from;
+    this.to = to;
+    this.message = text;
+    this.subMessages = new Array();
+
+    this.accept = function (visitor) {
+        return visitor.visit(this);
+    }
 }

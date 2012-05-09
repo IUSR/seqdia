@@ -5,6 +5,7 @@ function ArrowIconLeftDrawer(context) {
         context.drawImage($('#arrow_left')[0], left + length - 6, top - arrowImageHeight / 2, 20, 20);
     }
 }
+
 function ArrowIconRightDrawer(context) {
     var arrowImageHeight = 18;
 
@@ -12,6 +13,7 @@ function ArrowIconRightDrawer(context) {
         context.drawImage($('#arrow_right')[0], left + length - 12, top - arrowImageHeight / 2, 20, 20);
     }
 }
+
 function BarDrawer() {
     this.draw = function (context, left, top, height) {
         var barWidth = 10;
@@ -27,6 +29,7 @@ function BarDrawer() {
 
     }
 }
+
 function EntityDrawer() {
     this.draw = function (context, entityName, left, top, selected) {
 //        context.font = "bold 14px arial, sans-serif";
@@ -48,6 +51,7 @@ function EntityDrawer() {
         return rectangleWidth;
     }
 }
+
 function GridDrawer(context) {
     this.draw = function (width, height) {
         try {/* vertical lines */
@@ -66,7 +70,9 @@ function GridDrawer(context) {
         } catch (err) {
         }
     }
-}// draw vertical line
+}
+
+// draw vertical line
 function vertical_hand_drawing_line_to(context, fromX, fromY, toY) {
     var controlX, controlY;
     var offsetX = 3;
@@ -112,6 +118,7 @@ function hand_drawing_rect(context, left, top, width, height, radius) {
     context.lineTo(left, top + radius);
     context.quadraticCurveTo(left, top, left + radius, top);
 }
+
 function HorizontalArrowDrawer(context) {
     this.drawRightArrow = function (left, top, length) {
         new ArrowIconRightDrawer(context).draw(left + length, top);
@@ -132,7 +139,9 @@ function HorizontalArrowDrawer(context) {
             this.drawLeftArrow(left - 5, top, length + 10);
         }
     }
-}// This is to draw a horizontal line like: -----
+}
+
+// This is to draw a horizontal line like: -----
 function HorizontalLineDrawer(context) {
     this.draw = function (left, top, length) {
         context.beginPath();
@@ -143,9 +152,8 @@ function HorizontalLineDrawer(context) {
         context.strokeStyle = $('#message').css("color");
         context.stroke();
     };
-
-
 }
+
 function InternalInvokeDrawer() {
     var length = 50;
     var height = 30;
@@ -165,6 +173,7 @@ function InternalInvokeDrawer() {
         new LabelDrawer(context).draw(message, left, length, top);
     }
 }
+
 function LabelDrawer(context) {
     this.draw = function (message, left, length, top) {
         var maxWidth = 1000;
@@ -183,6 +192,7 @@ function LabelDrawer(context) {
 
     }
 }
+
 function LifeLineDrawer() {
     this.draw = function (context, entityName, left, lifeLength, selected) {
         var top = 20;
@@ -197,6 +207,7 @@ function LifeLineDrawer() {
         return entityWidth;
     }
 }
+
 function LineDrawer() {
     this.draw = function (context, left, top, height) {
         context.beginPath();
@@ -208,15 +219,15 @@ function LineDrawer() {
         context.strokeStyle = $('#line').css("color");
         context.stroke();
     };
-
-
 }
+
 function MessageDrawer() {
     this.draw = function (context, message, left, top, length) {
         new HorizontalArrowDrawer(context).draw(left, top, length);
         new LabelDrawer(context).draw(message, left, length, top);
     }
 }
+
 function RectangleDrawer(context) {
     this.draw = function (left, top, width) {
         var height = 30;
@@ -236,6 +247,4 @@ function RectangleDrawer(context) {
         context.closePath();
         context.stroke();
     };
-
-
 }
